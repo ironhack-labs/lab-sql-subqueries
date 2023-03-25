@@ -53,10 +53,10 @@ WHERE film_id IN (SELECT
 	                    film_id
                   FROM sakila.inventory
                   WHERE inventory_id IN (SELECT
-	                                           inventory_id
-										 FROM sakila.rental
-										 WHERE customer_id = (SELECT
-	                                                                customer_id
+	                                       inventory_id
+					FROM sakila.rental
+					WHERE customer_id = (SELECT
+	                                                           customer_id
                                                               FROM sakila.payment
                                                               GROUP BY customer_id
                                                               ORDER BY SUM(amount) DESC
