@@ -38,8 +38,6 @@ WHERE C.customer_id = (SELECT customer_id FROM sakila.payment GROUP BY customer_
 
 -- 8. Get the client_id and the total_amount_spent of those clients
 -- who spent more than the average of the total_amount spent by each client.
-SELECT customer_id, sum(amount) FROM sakila.payment WHERE client_id IN ('clients
-who spent more than the average of the total_amount spent by each client') GROUP BY customer_id ;
 
 SELECT customer_id, sum(amount) as total_amount
 FROM sakila.payment
