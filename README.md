@@ -2,7 +2,11 @@
 
 # Lab | SQL Subqueries
 
-In this lab, you will be using the [Sakila](https://dev.mysql.com/doc/sakila/en/) database of movie rentals. Create appropriate joins wherever necessary. 
+In this lab, you will be using the [Sakila](https://dev.mysql.com/doc/sakila/en/) database of movie rentals. Create appropriate joins wherever necessary.
+
+You should save your solutions in the `solutions.sql` file.
+
+<>
 
 ### Instructions
 
