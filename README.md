@@ -8,7 +8,7 @@ You should save your solutions in the `solutions.sql` file.
 
 <br>
 
-### Instructions
+## Instructions
 
 1. How many copies of the film _Hunchback Impossible_ exist in the inventory system?
 2. List all films whose length is longer than the average of all the films.
