@@ -6,7 +6,7 @@ In this lab, you will be using the [Sakila](https://dev.mysql.com/doc/sakila/en/
 
 You should save your solutions in the `solutions.sql` file.
 
-<>
+<br>
 
 ### Instructions
 
