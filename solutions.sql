@@ -1,1 +1,118 @@
--- Add you solution queries below:
+-- 1. How many copies of the film _Hunchback Impossible_ exist in the inventory system?
+
+select count(*) as "Copies of Hunchback Impossible"
+from inventory 
+where film_id =(
+	select film_id 
+    from film 
+    where title like "Hunchback%");
+
+-- 2. List all films whose length is longer than the average of all the films.
+select * 
+from film
+where length > (
+	select avg(length)
+	from film);
+
+-- 3. Use subqueries to display all actors who appear in the film _Alone Trip_.
+select a.actor_id, concat(first_name, ' ', last_name) as NAME
+from actor a inner join film_actor f on a.actor_id = f.actor_id
+where film_id = (
+		select film_id 
+        from film 
+        where title = "Alone Trip");
+
+-- 4. Sales have been lagging among young families, and you wish to target 
+-- all family movies for a promotion. Identify all movies categorized as family films.
+select film_id, title 
+from film
+where film_id in (
+	select film_id 
+    from film_category
+	where category_id =(
+		select category_id
+		from category
+		where `name` = "family")
+	);
+
+-- 5. Get name and email from customers from Canada using subqueries. Do the same with 
+-- joins. Note that to create a join, you will have to identify the correct tables with their 
+-- primary keys and foreign keys, that will help you get the relevant information.
+
+-- subqueries
+select  concat(first_name, " ", last_name) as NAME, email
+from customer
+where address_id in(
+	select address_id
+    from address
+    where city_id in(
+		select city_id
+        from city
+        where country_id = (
+			select country_id
+            from country
+            where country = "Canada"
+        )
+    )
+);
+
+-- joins
+select  concat(c.first_name, " ", c.last_name) as NAME, c.email as EMAIL
+from 
+	customer c 
+    inner join address a on c.address_id = a.address_id
+	inner join city on a.city_id = city.city_id
+    inner join country on city.country_id = country.country_id
+where country.country = "Canada";
+
+
+-- 6. Which are films starred by the most prolific actor? Most prolific actor is defined as 
+-- the actor that has acted in the most number of films. First you will have to find the most 
+-- prolific actor and then use that actor_id to find the different films that he/she starred.
+select film_id, title
+from film
+where film_id in(
+	select film_id 
+	from film_actor
+	where actor_id = (
+		select actor_id-- , count(*) as films
+		from film_actor
+		group by actor_id
+		order by count(*) desc
+		limit 1
+	)
+);
+
+
+-- 7. Films rented by most profitable customer. You can use the customer table and payment table 
+-- to find the most profitable customer ie the customer that has made the largest sum of payments
+select distinct film.film_id, film.title, customer_id
+from inventory 
+	inner join(
+		select * 
+		from rental
+		where customer_id =(
+			select customer_id
+			from payment
+			group by customer_id
+			order by sum(amount) desc
+			limit 1
+			)
+	) 	inv on inv.inventory_id = inventory.inventory_id
+	inner join film on inventory.film_id = film.film_id
+;
+
+
+-- 8. Get the `client_id` and the `total_amount_spent` of those clients who spent more than the 
+-- average of the `total_amount` spent by each client.
+select *
+from 
+	(select customer_id, sum(amount) as spent
+	from payment
+	group by customer_id) amts 
+where spent >(
+	select avg(spent) from(
+		select sum(amount) as spent
+		from payment
+		group by customer_id) av
+);
